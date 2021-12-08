@@ -1,0 +1,8 @@
+.details_list{
+    display: flex;
+    justify-content: space-evenly;
+}
+
+.details_list > li{
+    list-style-type: none;
+}
