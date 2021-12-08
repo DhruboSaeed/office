@@ -1,5 +1,6 @@
-import React, { Component, useState, useEffect } from "react";
+import React, { Component } from "react";
 import { getUserList } from "../actions/home_actions";
+import "../components/home.css"
 import {
   CardImg,
   Card,
@@ -15,41 +16,14 @@ import {
   CardFooter,
   Modal,
 } from "reactstrap";
-import axios from "axios";
-
-
-
-
-// function Home() {
-
-//  const [state, setstate] = useState([]);
-
-//  axios.get('https://60f2479f6d44f300177885e6.mockapi.io/users')
-//  .then(response =>{
-//    console.log(response.data)
-//  })
-//  .catch(err =>{
-//    console.log(err)
-//  })
-
-//   return (
-//     <div>
-      
-//     </div>
-//   )
-// }
-
-// export default Home
-
-
-
-
 class Home extends Component {
   constructor(props) {
     super(props);
-    this.state = {home : {
+    this.state = {
+      home: {
 
-    }};
+      }
+    };
   }
 
   componentDidMount() {
@@ -58,14 +32,13 @@ class Home extends Component {
 
   fetchUserList = () => {
 
-    const api = "https://60f2479f6d44f300177885e6.mockapi.io/users"
-    fetch(api)
-    .then((response) => {
-        console.log(response)
+    getUserList()
+      .then((response) => {
+        console.log('avssas', response)
         this.setState({
-          getUserList: response,
+          getUserList: response.data,
         });
-        this.state.getUserList = response;
+        this.state.getUserList = response.data;
       })
       .catch((err) => {
         console.log(err);
@@ -75,34 +48,56 @@ class Home extends Component {
   render() {
     let userListMap = [];
 
-    if (this.state.hasOwnProperty("fetch")) {
-      userListMap = this.state.fetch.data;
+    if (this.state.hasOwnProperty("getUserList")) {
+      userListMap = this.state.getUserList;
     }
-const{first_name, last_name,user_type,district,divison} =this.state.home;
+    const { first_name, last_name, user_type, district, divison } = this.state.home;
     return (
-      <div>
-        <Table className="table mb-0">
-          <thead>
-            <tr>
-              <th>Full Name</th>
-              <th>District</th>
-              <th>Divison</th>
-              <th>Active / False</th>
-              <th>Details View</th>
-            </tr>
-          </thead>
-          <tbody>
-            {userListMap.map((users) => (
-              <tr key={users.id.toString()}>
-                <td>{users.first_name}</td>
-                <td>{users.last_name}</td>
-                <td>{users.user_type}</td>
-                <td>{users.division}</td>
-                <td>{users.district}</td>
-              </tr>
-            ))}
-          </tbody>
-        </Table>
+      <div className="page-content">
+        <Container>
+          <Row>
+            <Col>
+              <Card>
+                <CardBody>
+                  <div className="container">
+                    <div className="row">
+                      <div className="col-md-12 bg-light text-right">
+                        <CardTitle style={{ textAlign: "left", fontSize: '20px', margin: '20px' }}><b>User List</b></CardTitle>
+                        <button style={{ fontSize: '20px', margin: '20px' }}>Add User</button>
+                      </div>
+                    </div>
+                  </div>
+                  <br></br>
+                  <hr></hr>
+                  <Table>
+                    <thead>
+                      <tr>
+                        <th>Full Name</th>
+                        <th>Last Name</th>
+                        <th>User Type</th>
+                        <th>Division</th>
+                        <th>District</th>
+                        <th>Details View</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {userListMap.map((users) => (
+                        <tr key={users.id.toString()}>
+                          <td>{users.first_name}</td>
+                          <td>{users.last_name}</td>
+                          <td>{users.user_type}</td>
+                          <td>{users.division}</td>
+                          <td>{users.district}</td>
+                          <td><button>Detail View</button> </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </Table>
+                </CardBody>
+              </Card>
+            </Col>
+          </Row>
+        </Container>
       </div>
     );
   }

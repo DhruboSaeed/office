@@ -1,6 +1,5 @@
 import axios from 'axios';
-
 export function getApi(options = {}) {
-    return axios;
-  }
-  
+  // setAuthorizationToken(localStorage.getItem('jwtToken'));
+  return axios;
+}
